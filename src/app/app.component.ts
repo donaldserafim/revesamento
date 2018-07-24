@@ -3,7 +3,9 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, MenuController, Nav } from 'ionic-angular';
 
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
-import { ListPage } from '../pages/list/list';
+import { CadastroProvaPage } from '../pages/cadastro-prova/cadastro-prova';
+import { CheckInPage } from '../pages/check-in/check-in';
+import { ColocacaoPage  } from '../pages/colocacao/colocacao';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -15,7 +17,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  // make HelloIonicPage the root (or first) page
+
   rootPage = HelloIonicPage;
   pages: Array<{title: string, component: any}>;
 
@@ -29,9 +31,9 @@ export class MyApp {
 
     // set our app's pages
     this.pages = [
-      { title: 'Cadastro de Prova', component: HelloIonicPage },
-      { title: 'Check-in - Trechos', component: ListPage },
-      { title: 'Colocação', component: HelloIonicPage },
+      { title: 'Cadastro de Prova', component: CadastroProvaPage },
+      { title: 'Check-in - Trechos', component: CheckInPage },
+      { title: 'Classificação', component: ColocacaoPage },
     ];
   }
 
