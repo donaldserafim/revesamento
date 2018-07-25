@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ColocacaoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { FirebaseProvider } from '../../providers/firebase/firebase';
+import { NotificationProvider } from '../../providers/notification/notification';
 
 @IonicPage()
 @Component({
@@ -15,7 +10,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ColocacaoPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+	lista: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public firebaseProvider:FirebaseProvider, public notificationProvider: NotificationProvider) {
+  	this.lista = firebaseProvider.listarColocacao();
   }
 
   ionViewDidLoad() {

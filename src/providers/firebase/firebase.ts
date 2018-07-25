@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map';
 export class FirebaseProvider {
   private basePath = 'revesamento';
   private basePathCheckIn = 'checkin';
+  private basePathColocacao = 'colocacao';
 
   private credenciaisCollection: AngularFirestoreCollection<any>;
 
@@ -34,7 +35,32 @@ export class FirebaseProvider {
   }
 
   listarCheckInPorTrecho(prova,trecho) {
-    this.credenciaisCollection = this.firestore.collection<any>(this.basePathCheckIn, ref => ref.where('prova', '==', prova.prova).where('trecho', '==', trecho.trecho));
+    this.credenciaisCollection = this.firestore.collection<any>(this.basePathCheckIn, 
+      ref => ref.where('prova', '==', prova.prova).where('trecho', '==', trecho.trecho).orderBy('horario'));
+    return this.credenciaisCollection.snapshotChanges().map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data();
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      });
+    });
+  }
+
+  listarColocacao() {
+    this.credenciaisCollection = this.firestore.collection<any>(this.basePathColocacao, 
+      ref => ref.orderBy('horario'));
+    return this.credenciaisCollection.snapshotChanges().map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data();
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      });
+    });
+  }
+
+  getColocacao(equipe) {
+    this.credenciaisCollection = this.firestore.collection<any>(this.basePathColocacao, 
+      ref => ref.where('equipe', '==', equipe));
     return this.credenciaisCollection.snapshotChanges().map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data();
@@ -96,6 +122,17 @@ export class FirebaseProvider {
       .set({ ...item });
   }
 
+  addItemColocacao(item: any) {
+    if (item.id) {
+      return this.updateCheckIn(item);
+    }
+    const postId: string = this.firestore.createId();
+    console.log('New post Id: ' + postId);
+    return this.firestore
+      .doc<any>(`${this.basePathColocacao}/${postId}`)
+      .set({ ...item });
+  }
+
   delete(item: any) {
     return this.firestore.doc<any>(`${this.basePath}/${item.id}`).delete();
   }
@@ -106,5 +143,9 @@ export class FirebaseProvider {
 
   updateCheckIn(item: any) {
     return this.firestore.doc<any>(`$this.basePathCheckIn/${item.id}`).update(item);
+  }
+
+  updateColocacao(item: any) {
+    return this.firestore.doc<any>(`{this.basePathColocacao}/${item.id}`).update(item);
   }
 }

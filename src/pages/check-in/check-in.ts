@@ -36,10 +36,11 @@ export class CheckInPage {
     };
   }
 
-  async checkIn() {
+  checkIn() {
 
     this.notificationProvider.showLoading();
-    this.model.horario = new Date();
+    var data = new Date();
+    this.model.horario = data;
 
     this.firebaseProvider
       .addItemCheckIn(this.model)
@@ -52,5 +53,26 @@ export class CheckInPage {
         this.notificationProvider.closeLoading();
         this.notificationProvider.showError(error.message);
       });
+
+    var colocacao = this.firebaseProvider.getColocacao(this.model.equipe);
+
+    var entrou = false;
+    colocacao.subscribe(lists=>{
+        lists.forEach(coloc=>{
+          console.log("passou");
+          console.log(coloc);
+          entrou = true;
+          this.firebaseProvider.updateColocacao(coloc);
+        })
+    });
+
+    if(!entrou){
+      console.log("passou 2");
+      var colocacao_new = {
+          equipe: this.model.equipe,
+          horario: data
+      };
+      this.firebaseProvider.addItemColocacao(colocacao_new);
+    }
   }
 }
