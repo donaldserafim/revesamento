@@ -7,6 +7,7 @@ import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { CadastroProvaPage } from '../pages/cadastro-prova/cadastro-prova';
 import { CheckInPage } from '../pages/check-in/check-in';
 import { ColocacaoPage } from '../pages/colocacao/colocacao';
+import { ListaTrechosPage } from '../pages/lista-trechos/lista-trechos';
 
 
 import { FIREBASE_CONFIG } from './firebase.credetials';
@@ -26,7 +27,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     HelloIonicPage,
     CadastroProvaPage,
     CheckInPage,
-    ColocacaoPage
+    ColocacaoPage,
+    ListaTrechosPage
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     HelloIonicPage,
     CadastroProvaPage,
     CheckInPage,
-    ColocacaoPage
+    ColocacaoPage,
+    ListaTrechosPage
   ],
   providers: [
     StatusBar,

@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-navbar>
+     <button ion-button menuToggle>
+	      <ion-icon name="menu"></ion-icon>
+	  </button>
+        <ion-title>
+            Lista de Trechos
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-item-sliding #item *ngFor="let prova of lista | async">
+          <ion-item>
+            <ion-list inset>
+                <button ion-item *ngFor="let item of prova.trechos" (click)="checkIn(prova,item)">
+                  <ion-icon name="aperture"></ion-icon>
+                  <h2>{{item.trecho}}</h2>
+                  <p>{{item.numero}}</p>
+                </button>
+            </ion-list>
+          </ion-item>
+        </ion-item-sliding>
+    </ion-list>
+</ion-content>

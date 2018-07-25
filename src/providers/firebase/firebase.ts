@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class FirebaseProvider {
   private basePath = 'revesamento';
+  private basePathCheckIn = 'checkin';
 
   private credenciaisCollection: AngularFirestoreCollection<any>;
 
@@ -32,8 +33,8 @@ export class FirebaseProvider {
     });
   }
 
-  listarTrecho() {
-    this.credenciaisCollection = this.firestore.collection<any>("trecho");
+  listarCheckInPorTrecho(prova,trecho) {
+    this.credenciaisCollection = this.firestore.collection<any>(this.basePathCheckIn, ref => ref.where('prova', '==', prova.prova).where('trecho', '==', trecho.trecho));
     return this.credenciaisCollection.snapshotChanges().map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data();
@@ -84,11 +85,26 @@ export class FirebaseProvider {
       .set({ ...item });
   }
 
+  addItemCheckIn(item: any) {
+    if (item.id) {
+      return this.updateCheckIn(item);
+    }
+    const postId: string = this.firestore.createId();
+    console.log('New post Id: ' + postId);
+    return this.firestore
+      .doc<any>(`${this.basePathCheckIn}/${postId}`)
+      .set({ ...item });
+  }
+
   delete(item: any) {
     return this.firestore.doc<any>(`${this.basePath}/${item.id}`).delete();
   }
 
   update(item: any) {
     return this.firestore.doc<any>(`${this.basePath}/${item.id}`).update(item);
+  }
+
+  updateCheckIn(item: any) {
+    return this.firestore.doc<any>(`$this.basePathCheckIn/${item.id}`).update(item);
   }
 }

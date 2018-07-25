@@ -10,21 +10,30 @@
 </ion-header>
 
 <ion-content padding>
-
-  <ion-searchbar
-    [(ngModel)]="filtro">
-</ion-searchbar>
     <ion-list>
-        <ion-item-sliding #item *ngFor="let prova of lista | async">
-          <ion-item>
-            <ion-list inset>
-                <button ion-item *ngFor="let item of prova.trechos" (click)="checkIn(prova,item)">
-                  <ion-icon name="aperture"></ion-icon>
-                  <h2>{{item.trecho}}</h2>
-                  <p>{{item.numero}}</p>
-                </button>
-            </ion-list>
-          </ion-item>
+      <ion-item>
+          <ion-label>{{prova.prova}}</ion-label>
+      </ion-item>
+
+      <ion-item>
+          <ion-label>{{trecho.trecho}}</ion-label>
+      </ion-item>
+
+       <ion-item>
+          <ion-label stacked>Equipe</ion-label>
+          <ion-input type="text" [(ngModel)]="model.equipe"></ion-input>
+        </ion-item>
+        <ion-item>
+          <button ion-button (click)="checkIn()">Check-In</button>
+        </ion-item>
+    </ion-list>
+
+
+    <ion-list>
+        <ion-item-sliding #item *ngFor="let checkin of lista | async">
+            <ion-item>
+                <h2>Equipe: {{checkin.equipe}} - Horario: {{checkin.horario.toDate() | date:'dd/MM/yy HH:mm:ss'}}</h2>
+            </ion-item>
         </ion-item-sliding>
     </ion-list>
 </ion-content>
